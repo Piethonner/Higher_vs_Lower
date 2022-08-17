@@ -1,0 +1,56 @@
+# REPLIT: https://replit.com/@Piethonner/Higher-vs-Lower#main.py
+import random
+from ascii import logo, vs
+from data import data
+from replit import clear
+
+#Function returning account details
+def acc_details(acc):
+    '''Returns account details for comparison.'''
+    acc_name = acc["name"]
+    acc_descr = acc["description"]
+    acc_country = acc["country"]
+    return f"{acc_name}, {acc_descr}, from {acc_country}"
+
+def checker(guess, a_follows, b_follows):
+    '''Returns True if guess was correct, False if it was not.'''
+    if a_follows > b_follows:
+        return guess == "a"
+    else:
+        return guess == "b"
+
+acc_b = random.choice(data)
+GAME = True
+score = 0
+
+print(logo)
+
+
+while GAME == True:
+    #Picks two accounts(shortcut - acc)
+    acc_a = acc_b
+    acc_b = random.choice(data)
+    if acc_a == acc_b:
+        acc_b = random.choice(data) #Changes if both choices are the same
+    
+    print(f"\nCompare first account:\n{acc_details(acc_a)}")
+    print(vs)
+    print(f"\nAgainst second account: \n{acc_details(acc_b)}")
+    
+    #Asks user for a guess
+    guess = input("\nWho has more followers? A, or B?: ").lower()
+    clear()
+    
+    #Checks if user's correct; summarizes the score
+    a_follows = acc_a["follower_count"]
+    b_follows = acc_b["follower_count"]
+    correct = checker(guess, a_follows, b_follows)
+    if correct:
+        score += 1
+        print(f"Correct! Current score: {score}.")
+    else:
+        GAME = False
+        if score > 1:
+            print(f"Incorrect! You've guessed correctly {score} times.")
+        else:
+            print("Incorrect! It's not your lucky day... Try again!")
